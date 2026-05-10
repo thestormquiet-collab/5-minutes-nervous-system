@@ -554,57 +554,25 @@
 </div>
 
 <script>
-  // ── KIT CONFIGURATION ──────────────────────────────────────────
-  // 1. Find your PUBLIC API key: Kit dashboard → Settings → Developer → V3 API Key
-  // 2. Find your Form ID: Grow → Landing Pages & Forms → click your form → the number in the URL
-  //    e.g. app.kit.com/forms/1234567/edit  →  form ID is 1234567
-  const KIT_API_KEY  = 'iBio3YaCsLwIfqFWyiFGHA';
-  const KIT_FORM_ID  = '3c2d295300';
-  // ──────────────────────────────────────────────────────────────
-
-  async function handleSubmit() {
+  function handleSubmit() {
     const emailInput = document.getElementById('email-input');
-    const btn        = document.querySelector('.btn');
-    const email      = emailInput.value.trim();
+    const email = emailInput.value.trim();
 
-    // Basic validation
-    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    if (!email || !email.includes('@')) {
       emailInput.style.borderColor = 'rgba(220,80,80,0.6)';
       emailInput.focus();
-      setTimeout(() => { emailInput.style.borderColor = ''; }, 1800);
+      setTimeout(() => { emailInput.style.borderColor = ''; }, 1500);
       return;
     }
 
-    // Loading state
-    btn.textContent = 'Sending…';
-    btn.disabled    = true;
-    btn.style.opacity = '0.75';
+    // Replace this with your actual form submission logic
+    // e.g., fetch to your email platform's API endpoint
+    console.log('Subscribing:', email);
 
-    try {
-      const res = await fetch(
-        `https://api.convertkit.com/v3/forms/${KIT_FORM_ID}/subscribe`,
-        {
-          method:  'POST',
-          headers: { 'Content-Type': 'application/json; charset=utf-8' },
-          body:    JSON.stringify({ api_key: KIT_API_KEY, email })
-        }
-      );
-
-      if (!res.ok) throw new Error(`Kit API returned ${res.status}`);
-
-      // Success — show thank you
-      document.getElementById('form-wrap').style.display = 'none';
-      const ty = document.getElementById('thankyou');
-      ty.classList.add('visible');
-      ty.style.animation = 'fadeUp 0.6s ease forwards';
-
-    } catch (err) {
-      console.error('Kit subscription error:', err);
-      btn.textContent = 'Something went wrong — try again';
-      btn.disabled    = false;
-      btn.style.opacity = '1';
-      setTimeout(() => { btn.textContent = 'Send Me The Reset'; }, 3000);
-    }
+    document.getElementById('form-wrap').style.display = 'none';
+    const ty = document.getElementById('thankyou');
+    ty.classList.add('visible');
+    ty.style.animation = 'fadeUp 0.6s ease forwards';
   }
 
   document.getElementById('email-input').addEventListener('keydown', function(e) {
@@ -613,4 +581,4 @@
 </script>
 
 </body>
-</html>
+       </html>
